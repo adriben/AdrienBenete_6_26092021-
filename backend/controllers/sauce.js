@@ -2,11 +2,14 @@ const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
 exports.createSauce = (req, res, next) =>{
+    console.log(req.body);
    const sauceObject = JSON.parse(req.body.sauce);
    delete sauceObject._id;
    const sauce = new Sauce({
        ...sauceObject,
-       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+       likes: 0,
+       dislikes: 0
    });
    sauce.save()
    .then(()=> res.status(201).json({ message: "sauce created"}))
@@ -45,4 +48,23 @@ exports.deleteSauce = (req, res, next) => {
         .catch(err => res.status(400).json({ err }))
     })})
     .catch(err => res.status(400).json({ err })) 
+}
+
+exports.likeSauce = (req, res, next) =>{
+    console.log(req.body.userId)
+    if(req.body.like == 1){
+        Sauce.findOne({_id: req.params.id})
+        .then(sauce => {
+            sauce.usersLiked.push(req.body.userId);
+            
+            
+             console.log(sauce);
+        }  )
+        .then(() => res.status(201).json({ message: "sauce liked"}))
+        .catch(err => res.status(400).json({ err }))
+
+    }
+    else if(req.body.like == -1){
+        console.log('unliked');
+    }
 }
