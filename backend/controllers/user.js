@@ -28,15 +28,13 @@ exports.login = (req, res, next) =>{
                 userId: user._id,
                 token: jwt.sign(
                     { userId: user._id},
-                    'RANDOM_TOKEN_SECRET',
+                    'ghuf342fkoy78gderlokA6',
                     { expiresIn: '24h'}
                 )
             });
         })
-        
         .catch(err => res.status(500).json({ err}))
      })
      .catch(err => res.status(500).json({ err}))
- 
  };
 

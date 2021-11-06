@@ -70,8 +70,7 @@ exports.likeSauce = (req, res, next) =>{
             if(likeIndex >-1){
                 sauce.likes -= 1;
                 sauce.usersLiked.splice(likeIndex, 1)
-                console.log(sauce.usersLiked);
-                console.log(sauce.usersDisliked);
+                
                 
             } else if(dislikeIndex > -1){
                 sauce.dislikes -= 1;
