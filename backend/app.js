@@ -4,6 +4,8 @@ const path = require('path');
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce')
 const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,7 +22,7 @@ app.use('/api/sauces', sauceRoutes);
 
 
 //connection to the Mongodb database
-mongoose.connect("mongodb://adri:hottakes2610@cluster0-shard-00-00.iimn8.mongodb.net:27017,cluster0-shard-00-01.iimn8.mongodb.net:27017,cluster0-shard-00-02.iimn8.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-82n6tr-shard-0&authSource=admin&retryWrites=true&w=majority",
+mongoose.connect(`mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0-shard-00-00.iimn8.mongodb.net:27017,cluster0-shard-00-01.iimn8.mongodb.net:27017,cluster0-shard-00-02.iimn8.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-82n6tr-shard-0&authSource=admin&retryWrites=true&w=majority`,
 { useNewUrlParser: true,
     useUnifiedTopology: true })
     .then(()=> console.log('successfuly connected to Mongodb'))
