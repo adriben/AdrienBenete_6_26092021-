@@ -1,6 +1,7 @@
 const Sauce = require('../models/Sauce');
-const fs = require('fs');
+const fs = require('fs');  
 
+//CREATION OF A SAUCE
 exports.createSauce = (req, res, next) =>{
    const sauceObject = JSON.parse(req.body.sauce);
    delete sauceObject._id;
@@ -10,7 +11,7 @@ exports.createSauce = (req, res, next) =>{
        likes: 0,
        dislikes: 0
    });
-   sauce.save()
+   sauce.save()  //saving the sauce in the db
    .then(()=> res.status(201).json({ message: "sauce created"}))
    .catch(err => res.status(400).json({ err }))
 }
