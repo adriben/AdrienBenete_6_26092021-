@@ -12,10 +12,10 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');  //send a valid port 
 app.set('port', port);
 
-const errorHandler = error => {
+const errorHandler = error => {   //check the error and handle it properly
   if (error.syscall !== 'listen') {
     throw error;
   }
