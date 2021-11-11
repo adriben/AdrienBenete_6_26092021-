@@ -16,18 +16,21 @@ exports.createSauce = (req, res, next) =>{
    .catch(err => res.status(400).json({ err }))
 }
 
+//Get all sauces in the main page
 exports.displayAllSauces = (req, res, next) => {
     Sauce.find()
     .then(sauce => res.status(200).json(sauce))
     .catch(err => res.status(400).json({ message: err}))
 }
 
+//Get one sauce 
 exports.displayOneSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
     .then( sauce => res.status(200).json(sauce))
     .catch(err => res.status(400).json({ err }))
 }
 
+//To modify the content of a sauce
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
@@ -38,6 +41,7 @@ exports.modifySauce = (req, res, next) => {
     .catch(err => res.status(400).json({ err }))
 }
 
+//to delete the sauce
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
     .then(sauce => {
@@ -50,28 +54,27 @@ exports.deleteSauce = (req, res, next) => {
     .catch(err => res.status(400).json({ err })) 
 }
 
+//to like the sauce
 exports.likeSauce = (req, res, next) =>{
     Sauce.findOne({_id: req.params.id})
     .then(sauce =>{
-        if(req.body.like == 1){
+        if(req.body.like == 1){ //if the user liked the sauce 
          sauce.likes += 1;
          sauce.usersLiked.push(req.body.userId);
          sauce.save()
         }
-        else if(req.body.like == -1){
+        else if(req.body.like == -1){ //if the user disliked the sauce
         sauce.dislikes += 1;
          sauce.usersDisliked.push(req.body.userId);
          sauce.save()
         }
-        else if(req.body.like == 0){
+        else if(req.body.like == 0){ //if the user unliked or undisliked the sauce
             let likeIndex = sauce.usersLiked.indexOf(req.body.userId);
             let dislikeIndex = sauce.usersDisliked.indexOf(req.body.userId);
 
             if(likeIndex >-1){
                 sauce.likes -= 1;
-                sauce.usersLiked.splice(likeIndex, 1)
-                
-                
+                sauce.usersLiked.splice(likeIndex, 1)          
             } else if(dislikeIndex > -1){
                 sauce.dislikes -= 1;
                 sauce.usersDisliked.splice(dislikeIndex, 1)

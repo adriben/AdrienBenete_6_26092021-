@@ -1,5 +1,7 @@
 const multer = require('multer');
 
+//MIDDLEWARE to manage the files entering the server or deleting
+
 const MIME_TYPES = {
     'images/jpg': 'jpg',
     'images/jpeg': 'jpg',

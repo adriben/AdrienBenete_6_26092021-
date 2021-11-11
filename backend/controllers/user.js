@@ -2,8 +2,9 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+//create a new user in the DB
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    bcrypt.hash(req.body.password, 10)      //hash and salt the password before saving in the DB
     .then(hash => {
         const user = new User({
             email: req.body.email,
@@ -16,11 +17,12 @@ exports.signup = (req, res, next) => {
    .catch(err => res.status(500).json({ err }))
 }
 
-exports.login = (req, res, next) =>{
+//login with an existing user's email
+exports.login = (req, res, next) =>{  
     User.findOne({ email: req.body.email })
     .then(user => {
         if(!user){return res.status(401).json({ error: 'user not found'})}
-        bcrypt.compare(req.body.password, user.password)
+        bcrypt.compare(req.body.password, user.password) //compare the password of the user with the one in the DB
         .then(valid =>{
             if(!valid){return res.status(401).json({ error: 'invalid password'})}
             res.status(200).json({
